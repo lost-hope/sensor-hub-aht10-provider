@@ -1,0 +1,9 @@
+{
+  "name": "sensor-hub-aht10-provider",
+  "build": {
+    "libArchive": false
+  },
+  "dependencies": {
+    "adafruit/Adafruit AHTX0": "^2.0.6"
+  }
+}
