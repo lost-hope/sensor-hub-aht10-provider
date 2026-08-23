@@ -19,6 +19,10 @@
  * usermod only needs to confirm the pins are set, then use the shared Wire
  * bus. It must NOT call Wire.begin() itself.
  */
+
+REGISTER_SENSOR_SLOT(_slotTemp, "_temperature", SensorTypes::Temperature, 1, 100);
+REGISTER_SENSOR_SLOT(_slotHumidity, "_humidity", SensorTypes::Humidity, 1, 100);
+
 class AHT10SensorUsermod : public Usermod {
   private:
     Adafruit_AHTX0 aht;
@@ -49,8 +53,8 @@ class AHT10SensorUsermod : public Usermod {
 
     void registerSensors() {
       if (!hub || tempHandle != SENSOR_HANDLE_INVALID) return; // already registered
-      tempHandle     = hub->registerSensor((namePrefix + "_temperature").c_str(), SensorType::Temperature, nullptr, nullptr, precision, priority);
-      humidityHandle = hub->registerSensor((namePrefix + "_humidity").c_str(),    SensorType::Humidity,    nullptr, nullptr, precision, priority);
+      tempHandle     = hub->attachSensor(&_slotTemp, namePrefix.c_str(), precision, priority);
+      humidityHandle = hub->attachSensor(&_slotHumidity, namePrefix.c_str(), precision, priority);
     }
 
   public:
